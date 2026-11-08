@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Price of Love – A 7-Minute HTML Film</title>
+<style>
+:root{--bg:#0f1420;--ink:#f1f3f7;--mute:#9aa4b8;--gold:#e3b04b;--line:#2b3550}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:1040px;margin:0 auto;padding:20px 14px 40px}
+h1{font:700 1.4rem Georgia,serif;margin:0 0 12px}
+#stage{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:10px;border:1px solid var(--line);background:#000}
+.bg{position:absolute;inset:0;transition:background 1.5s,opacity 1.2s}
+#city{position:absolute;left:0;right:0;bottom:0;height:45%;display:flex;align-items:flex-end;gap:2px;transition:opacity 1.2s}
+#city i{flex:1;background:#0a0e18;box-shadow:inset 0 0 0 1px #1b2338}
+#orb{position:absolute;left:50%;top:38%;width:18%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;transition:all 1.5s;filter:blur(2px)}
+#tag{position:absolute;left:3%;top:4%;font:italic .9rem Georgia,serif;color:var(--mute);transition:opacity .6s}
+#ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:0 8%;pointer-events:none}
+#ov .big{font:700 clamp(1.4rem,5vw,3.2rem)/1.1 Georgia,serif;opacity:0;transition:opacity 1s}
+#ov .big.on{opacity:1}
+#scores{display:grid;gap:6px;width:min(340px,70%);opacity:0;transition:opacity 1s;font-size:.85rem;text-align:left}
+#scores.on{opacity:1}
+#scores div{display:grid;grid-template-columns:110px 1fr 28px;gap:8px;align-items:center}
+#scores b{display:block;height:8px;background:var(--gold);border-radius:4px}
+#cast{position:absolute;right:3%;top:4%;max-width:46%;text-align:right;font-size:.8rem;color:var(--gold);transition:opacity .6s}#rain{position:absolute;inset:0;opacity:0;transition:opacity 1s;overflow:hidden}#rain i{position:absolute;top:-10%;width:1px;height:12%;background:#9ec1ff88;animation:fall .8s linear infinite}@keyframes fall{to{transform:translateY(900%)}}#ecg{position:absolute;left:10%;right:10%;top:60%;height:3px;background:linear-gradient(90deg,transparent,#7be0d0,transparent);opacity:0;animation:beat 1.2s infinite}@keyframes beat{50%{transform:scaleY(8)}}#stage.fb{filter:sepia(.7) contrast(1.05)}#img{background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s}#img.on{opacity:.85;animation:kb 30s ease-out forwards}@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12) translate(-1%,-1%)}}
+#grain{position:absolute;inset:0;pointer-events:none;opacity:.12;background:repeating-radial-gradient(#fff 0 .5px,transparent .5px 3px);mix-blend-mode:overlay}
+#bars i{position:absolute;left:0;right:0;height:0;background:#000;transition:height .6s}#bars.on i{height:11%}#bars i:first-child{top:0}#bars i:last-child{bottom:0}
+#emo{position:absolute;left:3%;top:11%;width:90px;font-size:.7rem;color:var(--mute)}#emo b{display:block;height:5px;background:#e05a6a;border-radius:3px;width:0;transition:width 1.5s;margin-top:3px}
+#credits{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#000e;text-align:center;padding:0 8%}#credits.on{display:flex}#credits h2{font:700 2rem Georgia,serif;margin:0}#credits p{margin:0;color:var(--mute)}
+select,#cx{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px;max-width:100%}
+.row2{margin-top:10px}.row2 label{color:var(--mute);font-size:.85rem}
+#sub{position:absolute;left:5%;right:5%;bottom:5%;text-align:center;font-size:clamp(.9rem,2.2vw,1.35rem);text-shadow:0 2px 6px #000;transition:opacity .4s}
+#sub small{display:block;color:var(--gold);font-size:.75em}
+#start{position:absolute;inset:0;display:grid;place-items:center;background:#000d;border:0;color:var(--ink);font:700 1.6rem Georgia,serif;cursor:pointer}
+#bar{height:14px;background:var(--line);border-radius:7px;margin:12px 0 4px;position:relative;cursor:pointer}
+#bar i{position:absolute;left:0;top:0;bottom:0;border-radius:7px;background:var(--gold);width:0}
+#bar u{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button.c{background:none;border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:6px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+#time{margin-left:auto;color:var(--mute);font-variant-numeric:tabular-nums}
+#now{color:var(--mute);font-size:.9rem;margin:6px 0 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<h1>The Price of Love</h1>
+<div id="stage" aria-label="Film screen">
+  <div class="bg" id="bg"></div><div id="img" class="bg"></div>
+  <div id="orb"></div>
+  <div id="city"></div>
+  <div id="tag"></div><div id="cast"></div><div id="rain"></div><div id="ecg"></div>
+  <div id="ov"><div id="scores"></div><div class="big" id="big"></div></div>
+  <div id="grain"></div><div id="bars"><i></i><i></i></div><div id="emo">Emotion<b id="eb"></b></div><div id="credits"><h2>The Price of Love</h2><p>Written, directed and built by Gundluru Rajasekhar</p><p>Cast: Arjun · Lakshmi · Priya · Priya's Parents · Google Director · Relatives</p><button class="c" id="rp">Replay</button></div><div id="sub" aria-live="polite"></div>
+  <button id="start">▶ Play the film (7:00)</button>
+</div>
+<div id="bar" role="slider" aria-label="Timeline" aria-valuemin="0" aria-valuemax="420" tabindex="0"><i id="fill"></i></div>
+<div class="row">
+  <button class="c" id="pp">Pause</button>
+  <button class="c" id="rs">Restart</button>
+  <button class="c" id="mu">Music: on</button>
+  <button class="c" id="vo">Voice: on</button>
+  <button class="c" id="cc">Subtitles: on</button>
+  <button class="c" id="fs">Fullscreen</button><button class="c" id="lb">Letterbox: off</button><button class="c" id="sr">Download subtitles (.srt)</button><span id="time">0:00 / 7:00</span>
+</div>
+<div class="row row2"><label>Voice <select id="vs"></select></label><label>Jump to <select id="js"></select></label><label>Scene image <select id="is"></select> <input type="file" id="cx" accept="image/*"></label></div>
+<p style="color:var(--mute);font-size:.8rem;margin:6px 0 0">Shortcuts: Space play/pause · F fullscreen · M music · V voice · C subtitles · L letterbox · ← → seek 10s. Images stay on your device.</p>
+<p id="now"></p>
+<h2 style="font:600 1.1rem Georgia,serif;margin:22px 0 8px">Cast</h2>
+<ul style="color:var(--mute);padding-left:18px;margin:0;font-size:.9rem"><li><b>Arjun</b>, 28: teacher; honest, hardworking, kind; dreams of marrying Priya; loves his mother most</li><li><b>Lakshmi (Amma)</b>: widow and tailor; secretly sacrifices everything for Arjun</li><li><b>Priya</b>: Arjun's girlfriend; loves him, pressured by her family</li><li><b>Priya's Father</b>: businessman; salary equals success. <b>Priya's Mother</b>: reputation-conscious; wants a rich son-in-law</li><li><b>Google Director</b>: successful relative; society's idea of success. <b>Relatives</b>: ignore him when poor, adore him when rich</li></ul>
+</main>
+<script>
+const N="Narrator",A="Arjun",F=["Priya","Lakshmi","Amma","Priya's Mother"];
+const SC=[
+{t:"Opening",d:15,bg:["#0f1420","#1c2740"],city:.2,orb:"#3d5a99",big:"AI Film Award",L:[[N,"By 2028, technology had connected the world. Yet somehow, people had never felt more alone."]]},
+{t:"The Invisible Man",d:40,bg:["#1a2238","#46557a"],city:1,orb:"#8aa0d6",tag:"Bengaluru, 2028",cast:"Arjun, 28 · School teacher · honest, kind, hardworking",scores:[["Google Director",98],["Startup Founder",94],["Influencer",92],["Teacher Arjun",34]],L:[[N,"They said every human being had equal value. But society had quietly written a different rule."],["Passenger","Which company do you work for?"],[A,"I'm a school teacher."],[N,"The passenger lost interest instantly."]]},
+{t:"Respect Has a Price",d:40,bg:["#2a1d24","#6b4a3a"],city:0,orb:"#e0a15a",tag:"A family function",cast:"Google Director · the relative society calls a success",L:[["Relative","Look who's here! Director at Google!"],[N,"Everyone applauds. A few seconds later, Arjun enters. Nobody notices."],["Relative","And you?"],[A,"I'm a teacher."],["Relative","Oh..."],[N,"His value had already been calculated."]]},
+{t:"Love Without Status",d:30,bg:["#2b1a2e","#c0603e"],city:0,orb:"#ff9d6b",tag:"Sunset, with Priya",cast:"Priya · loves him for who he is",L:[[A,"Priya, I may not be rich. But I promise a lifetime of love."],["Priya","I don't need a rich man, Arjun. I need you."],[N,"But love was never the only voice in the room."]]},
+{t:"Rain",d:40,bg:["#0b1220","#25324a"],city:.3,orb:"#5f7aa8",tag:"Priya's house",rain:1,cast:"Priya's Father · businessman, salary equals success  |  Priya's Mother · wants a rich son-in-law",L:[["Father","Can love provide security?"],[A,"No sir. But it can provide happiness."],["Father","Happiness doesn't pay bills."],["Priya's Mother","Our daughter deserves someone successful."],[N,"The door closed. Arjun stood alone in the rain."]]},
+{t:"Mother's Sacrifice",d:50,bg:["#2a1f14","#8a6a3a"],city:0,orb:"#ffd9a0",tag:"Home. A sewing machine hums.",big:"₹50,000",cast:"Lakshmi (Amma) · widow, tailor, loves him unconditionally",L:[[A,"Amma, the AI certification costs fifty thousand rupees. Forget it. We can't afford it."],["Lakshmi","Don't worry, son. I'll manage.",2,.015],[N,"The next day, Lakshmi takes off her wedding chain, the last memory of her late husband.",0,.09],[N,"She sells it at a jewellery shop, and returns home crying quietly."],[N,"Arjun never knew."]]},
+{t:"The Age of AI",d:30,bg:["#07131c","#0f4a5a"],city:.9,orb:"#3fd0e0",tag:"Rankings everywhere",big:"RANK  •  SCORE  •  VALUE",L:[[N,"The world no longer asked who you were."],[N,"It only asked what you earned."],[N,"Arjun studied through every night. Rejections. Failures. Sunrise."]]},
+{t:"The Rise",d:40,bg:["#14213d","#e0a030"],city:1,orb:"#ffd36b",tag:"Large office · AI dashboards · conference stage",big:"Arjun Becomes CEO of India's Fastest Growing AI Company",L:[[N,"A company logo. Hundreds of employees. News articles. A global stage."],["Reporter","How did you achieve this success?"],[A,"I wasn't chasing success."],[A,"I was chasing respect."]]},
+{t:"The Truth",d:55,bg:["#18181f","#5a5668"],city:1,orb:"#cfc7e6",tag:"Everyone wants him now",big:"Receipt found: gold chain sold, ₹50,000",L:[["Relatives","We always believed in you. Come for dinner!"],[N,"Marriage proposals arrive. Everyone suddenly respects him. Arjun smiles sadly."],[N,"Then, in an old drawer, he finds a jeweller's receipt. His mother's wedding chain.",2,.14],[N,"Flashback. At his graduation, Amma stood in the last row. No chain around her neck. She smiled anyway.",0,.1],[N,"She skipped meals so his plate was never empty. Her sewing machine hummed through every night.",0,.1],["Lakshmi","Don't worry, son. I'll manage.",1,.08],[A,"Amma... you gave up everything for me.",2,.12]]},
+{t:"Hospital",d:40,bg:["#0e1a1c","#2c6b6b"],city:0,orb:"#7be0d0",tag:"The hospital",pulse:1,cast:"Only three people stayed",L:[[N,"Lakshmi falls ill. Investors disappear. Business partners disappear. Those who praised him disappear."],[N,"Only three remain: his mother, Priya, and his school friend."],[A,"I earned everything.",2,.02],[A,"But the people who stayed with me were the ones who loved me before I had anything.",0,.04]]},
+{t:"The Final Speech",d:40,bg:["#0f1420","#3a4a7a"],city:0,orb:"#ffe9b0",tag:"A stage. Thousands watching. Silence.",big:"THE PRICE OF LOVE",L:[[A,"When I was poor, they asked my salary. When I became rich, they asked for my time.",3,.05],[A,"But only my mother asked if I had eaten.",4,0],[A,"Money can buy attention. Status can buy respect. But only love can buy a place in someone's heart.",0,.1],[N,"If relationships depend on money, humanity survives only in appearance. If relationships depend on love, humanity lives forever.",0,.13]]}];
+// build cues
+let T=0;const cues=[],starts=[];
+SC.forEach((s,i)=>{starts.push(T);const W=l=>l[1].length+(l[2]||0)*13,tot=s.L.reduce((a,l)=>a+W(l),0);let t=T;
+ s.L.forEach(l=>{const dur=s.d*W(l)/tot;cues.push({i,t,dur,sp:s.d*l[1].length/tot,who:l[0],txt:l[1],m:l[3]});t+=dur});T+=s.d});
+const TOTAL=T;
+const $=id=>document.getElementById(id);
+const city=$("city");for(let i=0;i<40;i++){const b=document.createElement("i");b.style.height=(25+Math.random()*75)+"%";city.appendChild(b)}
+const rn=$("rain");for(let i=0;i<70;i++){const d=document.createElement("i");d.style.left=Math.random()*100+"%";d.style.animationDelay=Math.random()*.8+"s";rn.appendChild(d)}
+const BASE=[.07,.07,.06,.07,.05,.05,.08,.12,.06,.05,.07];let lvl=.07;
+const EM=[15,35,50,60,85,98,50,45,92,100,95],imgs={};
+// state
+let pos=0,playing=false,last=0,cur=-1,curScene=-1,mOn=true,vOn=true,cOn=true;
+// music
+let ac,master,nodes=[];
+const CH=[[220,261.6,329.6],[174.6,220,261.6],[261.6,329.6,392],[196,246.9,293.7]];
+function music(on){
+ if(!on||!mOn){if(master)master.gain.setTargetAtTime(0,ac.currentTime,.3);return}
+ if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=0;master.connect(ac.destination);
+  CH[0].forEach((f,k)=>{const o=ac.createOscillator();o.type=k?"triangle":"sine";o.frequency.value=f;const g=ac.createGain();g.gain.value=.25;o.connect(g).connect(master);o.start();nodes.push(o)});
+  nodes.push(Object.assign(ac.createOscillator(),{type:"sine"}));const b=nodes.pop();b.frequency.value=110;const g=ac.createGain();g.gain.value=.3;b.connect(g).connect(master);b.start();nodes.push(b)}
+ ac.resume();master.gain.setTargetAtTime(lvl,ac.currentTime,.5)}
+function chord(){if(!ac)return;const c=CH[Math.floor(pos/6)%4];for(let k=0;k<3;k++)nodes[k].frequency.setTargetAtTime(c[k]*(curScene==7?2:1),ac.currentTime,.4);nodes[3].frequency.setTargetAtTime(c[0]/2,ac.currentTime,.4)}
+// voice
+function speak(c){if(!vOn||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(c.txt);const vc=speechSynthesis.getVoices()[+$("vs").value];if(vc){u.voice=vc;u.lang=vc.lang}
+ u.rate=Math.min(1.25,Math.max(.8,c.txt.length/(c.sp*13)));u.pitch=c.who==N?.8:c.who==A?.9:F.includes(c.who)||c.who=="Mother"?1.3:1;speechSynthesis.speak(u)}
+function scene(i){const s=SC[i];curScene=i;
+ $("bg").style.background=`linear-gradient(180deg,${s.bg[0]},${s.bg[1]})`;
+ $("city").style.opacity=s.city;$("orb").style.background=`radial-gradient(${s.orb},transparent 70%)`;
+ $("tag").textContent=s.tag||"";$("eb").style.width=EM[i]+"%";$("js").value=i;
+ const im=$("img");im.classList.remove("on");if(imgs[i]){im.style.backgroundImage=`url(${imgs[i]})`;void im.offsetWidth;im.classList.add("on")}$("cast").textContent=s.cast||"";$("rain").style.opacity=s.rain?1:0;$("ecg").style.opacity=s.pulse?1:0;
+ const sc=$("scores");sc.innerHTML=i==1?s.scores.map(x=>`<div><span>${x[0]}</span><b style="width:${x[1]}%"></b><span>${x[1]}</span></div>`).join(""):"";sc.classList.toggle("on",i==1);
+ const bg=$("big");bg.classList.remove("on");setTimeout(()=>{bg.textContent=s.big||"";bg.classList.toggle("on",!!s.big)},600);
+ $("now").textContent=`Scene ${i}: ${s.t}  (${fmt(starts[i])})`.replace("Scene 0","Opening");
+ if(i==0)$("now").textContent="Opening";
+}
+const fmt=t=>Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");
+function show(c){$("stage").classList.toggle("fb",c.i==8&&/Flashback|skipped meals|Don.t worry/.test(c.txt));$("sub").innerHTML=cOn?(c.who==N?"":`<small>${c.who}</small>`)+c.txt:"";}
+function tick(n){if(playing){pos=Math.min(TOTAL,pos+(n-last)/1000);}last=n;
+ let k=cues.findIndex((c,j)=>pos>=c.t&&(j==cues.length-1||pos<cues[j+1].t));
+ if(k!=cur){cur=k;const c=cues[k];if(c.i!=curScene)scene(c.i);show(c);if(playing)speak(c);lvl=c.m!=null?c.m:BASE[c.i];if(playing&&ac&&mOn)master.gain.setTargetAtTime(lvl,ac.currentTime,.4);chord()}
+ if(Math.floor(pos)%6==0)chord();
+ $("fill").style.width=pos/TOTAL*100+"%";$("time").textContent=fmt(pos)+" / "+fmt(TOTAL);$("bar").setAttribute("aria-valuenow",Math.floor(pos));
+ if(pos<TOTAL&&$("credits").classList.contains("on"))$("credits").classList.remove("on");if(pos>=TOTAL&&playing){$("credits").classList.add("on");playing=false;$("pp").textContent="Replay";music(false)}
+ requestAnimationFrame(tick)}
+function play(){playing=true;$("pp").textContent="Pause";music(true);if(pos>=TOTAL){pos=0;cur=-1}if(speechSynthesis&&cur>=0)speak(cues[cur])}
+function pause(){playing=false;$("pp").textContent="Play";music(false);window.speechSynthesis&&speechSynthesis.cancel()}
+$("start").onclick=()=>{$("start").remove();play()};
+$("pp").onclick=()=>playing?pause():play();
+$("rs").onclick=()=>{pos=0;cur=-1;if(!playing)play()};
+$("mu").onclick=e=>{mOn=!mOn;e.target.textContent="Music: "+(mOn?"on":"off");music(playing)};
+$("vo").onclick=e=>{vOn=!vOn;e.target.textContent="Voice: "+(vOn?"on":"off");if(!vOn)speechSynthesis.cancel()};
+$("cc").onclick=e=>{cOn=!cOn;e.target.textContent="Subtitles: "+(cOn?"on":"off");if(cur>=0)show(cues[cur])};
+const bar=$("bar");starts.slice(1).forEach(t=>{const u=document.createElement("u");u.style.left=t/TOTAL*100+"%";bar.appendChild(u)});
+bar.onclick=e=>{const r=bar.getBoundingClientRect();pos=(e.clientX-r.left)/r.width*TOTAL;cur=-1};
+bar.onkeydown=e=>{if(e.key=="ArrowRight")pos=Math.min(TOTAL,pos+10);if(e.key=="ArrowLeft")pos=Math.max(0,pos-10);cur=-1};
+SC.forEach((x,i)=>{["js","is"].forEach(id=>{const o=document.createElement("option");o.value=i;o.textContent=(i?i+". ":"")+x.t;$(id).appendChild(o)})});
+$("js").onchange=e=>{pos=starts[+e.target.value];cur=-1};
+$("cx").onchange=e=>{const f=e.target.files[0];if(!f)return;imgs[+$("is").value]=URL.createObjectURL(f);if(+$("is").value==curScene)scene(curScene)};
+function voices(){const v=speechSynthesis.getVoices(),sel=$("vs");sel.innerHTML="";v.forEach((x,i)=>{const o=document.createElement("option");o.value=i;o.textContent=x.name+" ("+x.lang+")";sel.appendChild(o)});const k=v.findIndex(x=>/en-IN|te-IN|hi-IN/.test(x.lang));if(k>=0)sel.value=k}
+if(window.speechSynthesis){voices();speechSynthesis.onvoiceschanged=voices}
+$("fs").onclick=()=>{const st=$("stage");document.fullscreenElement?document.exitFullscreen():st.requestFullscreen&&st.requestFullscreen()};
+const lbT=()=>{const on=!$("bars").classList.contains("on");$("bars").classList.toggle("on",on);$("lb").textContent="Letterbox: "+(on?"on":"off")};$("lb").onclick=lbT;
+$("rp").onclick=()=>{pos=0;cur=-1;$("credits").classList.remove("on");play()};
+const ts=t=>{const h=Math.floor(t/3600),m=Math.floor(t%3600/60),x=(t%60).toFixed(3).replace(".",",");return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+x.padStart(6,"0")};
+$("sr").onclick=()=>{const t=cues.map((c,i)=>`${i+1}\n${ts(c.t)} --> ${ts(c.t+c.dur)}\n${c.who==N?"":c.who+": "}${c.txt}\n`).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/plain"}));a.download="the-price-of-love.srt";a.click()};
+document.addEventListener("keydown",e=>{if(/INPUT|SELECT/.test(e.target.tagName))return;const k=e.key.toLowerCase();
+ if(k==" "&&e.target.tagName!="BUTTON"){e.preventDefault();$("pp").click()}
+ else if(k=="f")$("fs").click();else if(k=="m")$("mu").click();else if(k=="v")$("vo").click();else if(k=="c")$("cc").click();else if(k=="l")lbT();
+ else if(k=="arrowright"&&e.target.id!="bar"){pos=Math.min(TOTAL,pos+10);cur=-1}else if(k=="arrowleft"&&e.target.id!="bar"){pos=Math.max(0,pos-10);cur=-1}});
+scene(0);show(cues[0]);requestAnimationFrame(tick);
+</script>
+</body>
+</html>
